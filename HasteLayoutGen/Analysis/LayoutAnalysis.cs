@@ -2,13 +2,13 @@
 using HasteLayoutGen.Landfall;
 using static HasteLayoutGen.Landfall.LevelSelectionNode;
 
-namespace HasteLayoutGen
+namespace HasteLayoutGen.Analysis
 {
     public static class LayoutAnalysis
     {
         public static int PathCount(List<LevelSelectionNode> nodes)
         {
-            return nodes.Count() - nodes.Where(n => n.Type != NodeType.Default && n.Type != NodeType.Challenge).Count();
+            return nodes.Count - nodes.Where(n => n.Type != NodeType.Default && n.Type != NodeType.Challenge).Count();
         }
 
         public static List<LevelSelectionNode> FindBestPath(List<LevelSelectionNode> nodes, List<LevelSelectionPath> paths)
@@ -33,11 +33,7 @@ namespace HasteLayoutGen
             List<LevelSelectionNode> path = [start];
             while (path.Last() != end)
             {
-                LevelSelectionNode? next = rng.Choice(paths.Where(e => e.From == path.Last()).ToList()).To;
-                if (next == null)
-                {
-                    throw new Exception("Invalid path! An edge has a null end before found a path to the end node!");
-                }
+                LevelSelectionNode? next = rng.Choice(paths.Where(e => e.From == path.Last()).ToList()).To ?? throw new Exception("Invalid path! An edge has a null end before found a path to the end node!");
                 path.Add(next);
             }
             return path;
@@ -45,13 +41,13 @@ namespace HasteLayoutGen
 
         private static List<LevelSelectionNode> FindEitherBestOrWorstPath(LevelSelectionNode start, LevelSelectionNode end, List<LevelSelectionPath> edges, bool findWorst)
         {
-            Dictionary<LevelSelectionNode, int> badNodeCount = new();
-            Dictionary<LevelSelectionNode, LevelSelectionNode?> cameFrom = new();
+            Dictionary<LevelSelectionNode, int> badNodeCount = [];
+            Dictionary<LevelSelectionNode, LevelSelectionNode?> cameFrom = [];
             PriorityQueue<LevelSelectionNode, int> pq = new(); // Priority queue for Dijkstra-style traversal
 
             int weight = findWorst ? 0 : 1;
             // Start with the start node
-            badNodeCount[start] = (start.Type == NodeType.Default || start.Type == NodeType.Challenge) ? weight : (1 - weight);
+            badNodeCount[start] = start.Type == NodeType.Default || start.Type == NodeType.Challenge ? weight : 1 - weight;
             pq.Enqueue(start, badNodeCount[start]);
 
             while (pq.Count > 0)
@@ -64,12 +60,13 @@ namespace HasteLayoutGen
                 foreach (var edge in edges.Where(e => e.From == current))
                 {
                     LevelSelectionNode neighbor = edge.To;
-                    int newBadCount = badNodeCount[current] + ((neighbor.Type == NodeType.Default || neighbor.Type == NodeType.Challenge) ? weight : (1 - weight));
+                    int newBadCount = badNodeCount[current] + (neighbor.Type == NodeType.Default || neighbor.Type == NodeType.Challenge ? weight : 1 - weight);
 
                     // Only update if we found a better (fewer bad nodes) path
-                    if (!badNodeCount.ContainsKey(neighbor) || newBadCount < badNodeCount[neighbor])
+                    if (!badNodeCount.TryGetValue(neighbor, out int value) || newBadCount < value)
                     {
-                        badNodeCount[neighbor] = newBadCount;
+                        value = newBadCount;
+                        badNodeCount[neighbor] = value;
                         cameFrom[neighbor] = current;
                         pq.Enqueue(neighbor, newBadCount);
                     }
@@ -77,13 +74,13 @@ namespace HasteLayoutGen
             }
 
             // Reconstruct path
-            List<LevelSelectionNode> path = new();
+            List<LevelSelectionNode> path = [];
             LevelSelectionNode? pathNode = end;
 
             while (pathNode != null)
             {
                 path.Add(pathNode);
-                pathNode = cameFrom.ContainsKey(pathNode) ? cameFrom[pathNode] : null;
+                pathNode = cameFrom.TryGetValue(pathNode, out LevelSelectionNode? value) ? value : null;
             }
 
             path.Reverse();

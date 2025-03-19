@@ -219,7 +219,7 @@ namespace HasteLayoutGen.Landfall
             {
                 var nodesOnThisDepth = generationInfo.Nodes.Where(n => n.Depth == depth).ToArray();
 
-                if (nodesOnThisDepth.Any())
+                if (nodesOnThisDepth.Length != 0)
                 {
                     var ran = random.Next(0, nodesOnThisDepth.Length);
                     //nodesOnThisDepth[ran].SetType(LevelSelectionNode.NodeType.Shop);

@@ -1,0 +1,18 @@
+﻿input[name="seed"] {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.submit-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.email::before {
+    content: 'haste';
+}
+
+.email::after {
+    content: 'razzleware.de';
+}

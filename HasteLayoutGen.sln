@@ -5,6 +5,11 @@ VisualStudioVersion = 17.10.35013.160
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HasteLayoutGen", "HasteLayoutGen\HasteLayoutGen.csproj", "{FBC55E0F-318B-45AD-B2C9-E22F62E1B70C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeedVisualiser", "SeedVisualiser\SeedVisualiser.csproj", "{494FA800-A3C4-4D4E-9F90-6CD244C664F3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FBC55E0F-318B-45AD-B2C9-E22F62E1B70C} = {FBC55E0F-318B-45AD-B2C9-E22F62E1B70C}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +20,10 @@ Global
 		{FBC55E0F-318B-45AD-B2C9-E22F62E1B70C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FBC55E0F-318B-45AD-B2C9-E22F62E1B70C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FBC55E0F-318B-45AD-B2C9-E22F62E1B70C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{494FA800-A3C4-4D4E-9F90-6CD244C664F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{494FA800-A3C4-4D4E-9F90-6CD244C664F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{494FA800-A3C4-4D4E-9F90-6CD244C664F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{494FA800-A3C4-4D4E-9F90-6CD244C664F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

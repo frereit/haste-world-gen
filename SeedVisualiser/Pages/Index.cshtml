@@ -1,0 +1,49 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "HASTE Shard Layout Viewer";
+}
+
+<form id="seedForm">
+    <fieldset>
+        <legend>Layout Options</legend>
+        <input type="number" name="seed" id="seed" placeholder="Seed" min="0" max="4294967295">
+
+        <fieldset>
+            <legend>Generator</legend>
+            <div>
+                <input type="radio" name="generator" value="demo" id="demo" checked>
+                <label for="demo">Demo Generator</label>
+            </div>
+            <div>
+                <input type="radio" name="generator" value="experimental" id="experimental">
+                <label for="experimental">Experimental Generator</label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <div class="submit-container">
+        <button type="submit">Generate layout</button>
+    </div>
+</form>
+<hr />
+<p>Here's how to find the seeds that you have played previously:</p>
+<ol>
+    <li>Find your Haste log folder:<br>On Windows, press <kbd>Win</kbd>+<kbd>R</kbd> and paste <code class="copy">%userprofile%\AppData\LocalLow\Landfall\Haste</code>, then press <kbd>Enter</kbd>.<br>On Linux, the file is at <code class="copy">~/.config/unity3d/Landfall/Haste/</code>.<br>On macOS, the file is at <code class="copy">~/Library/Logs/Landfall/Haste</code>.</li>
+    <li>Open the <code>Player.log</code> file with a text editor.</li>
+    <li>Search for <code class="copy">Starting new run with RunID</code> to find all the seeds you have played.</li>
+    <li>The most recent seed is at the bottom of the file.</li>
+</ol>
+
+
+<script>
+    document.getElementById("seedForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+        let seed = Number(document.getElementById("seed").value);
+        let generator = document.querySelector('input[name="generator"]:checked').value;
+        if (Number.isInteger(seed) && seed >= 0 && seed < 4294967296) {
+            window.location.href = `/seed/${generator}/${seed}.png`;
+        } else {
+            alert("Enter a seed between 0 and 4294967295!");
+        }
+    });
+</script>
