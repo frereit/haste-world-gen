@@ -4,6 +4,8 @@ This is a simple Visual Studio 2022 project which wraps the layout generation co
 
 Modifications to Landfall code are kept as minimal as possible, to make porting over new changes to the layout generation quick and easy.
 
+You can view layouts using both the demo and experimental generator (explained below) at <https://haste.razzleware.de>.
+
 ## Analysis
 
 Currently, there's two generators imlemented:
