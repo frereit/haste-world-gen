@@ -32,4 +32,10 @@ This has a few consequences:
 
 ## Building
 
-No special dependencies are needed to build this project. Though to really get any use out of it, you'll probably want to change the `main` method in `Program.cs` to do what interests you.
+No special dependencies are needed to build this project.
+
+You can use the HasteLayoutGen project as a library to do generate the nodes and edges for any seed (with any generator), and then do any custom analysis you can dream of. It's easiest to just add a new Console Application to the project, with a dependency on the HasteLayoutGen project.
+
+## Licenses
+
+- This project bundles the "Noto Sans" font. Noto Sans is Copyright 2022 The Noto Project Authors (https://github.com/notofonts/latin-greek-cyrillic). You can view the full license text of the Open Font License [here](https://fonts.google.com/noto/specimen/Noto+Sans/license)
