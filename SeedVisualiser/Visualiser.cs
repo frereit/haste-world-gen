@@ -26,6 +26,11 @@ namespace SeedVisualiser
                 DemoLevelSelectionMapGenerator.GenerationInfo info = new() { Depth = depth, Nodes = [], Paths = [] };
                 (nodes, paths) = DemoLevelSelectionMapGenerator.Generate(info, new Random(seed));
             }
+            else if (generator == "v1.0.b")
+            {
+                ReleaseV1LevelSelectionMapGenerator.GenerationInfo info = new() { Depth = depth, Nodes = [], Paths = [] };
+                (nodes, paths) = ReleaseV1LevelSelectionMapGenerator.Generate(info, new Random(seed));
+            }
             else
             {
                 throw new ArgumentException($"Unkown generator {generator}");
@@ -34,7 +39,7 @@ namespace SeedVisualiser
 
             var imageInfo = new SKImageInfo(
                 width: 1200,
-                height: 2000,
+                height: 400 + depth * 120,
                 colorType: SKColorType.Rgba8888,
                 alphaType: SKAlphaType.Premul);
             var surface = SKSurface.Create(imageInfo);

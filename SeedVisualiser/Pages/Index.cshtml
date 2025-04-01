@@ -7,17 +7,28 @@
 <form id="seedForm">
     <fieldset>
         <legend>Layout Options</legend>
-        <input type="number" name="seed" id="seed" placeholder="Seed" min="0" max="4294967295">
-
+        <div>
+            <label for="seed">Level Seed</label>
+            <input type="number" name="seed" id="seed" placeholder="Seed" min="0" max="4294967295">
+        </div>
+        <div>
+            <label for="depth">Level Depth</label>
+            <small>This is the number of levels between the start and boss node</small>
+            <input type="number" name="depth" id="depth" placeholder="Depth" min="1" max="50" value="12">
+        </div>
         <fieldset>
             <legend>Generator</legend>
             <div>
-                <input type="radio" name="generator" value="demo" id="demo" checked>
+                <input type="radio" name="generator" value="v1.0.b" id="v1.0.b" checked>
+                <label for="v1.0.b">Release Generator (v1.0.b)</label>
+            </div>
+            <div>
+                <input type="radio" name="generator" value="demo" id="demo">
                 <label for="demo">Demo Generator</label>
             </div>
             <div>
                 <input type="radio" name="generator" value="experimental" id="experimental">
-                <label for="experimental">Experimental Generator</label>
+                <label for="experimental">Experimental Generator (never released)</label>
             </div>
         </fieldset>
     </fieldset>
@@ -39,11 +50,8 @@
     document.getElementById("seedForm").addEventListener("submit", function(event) {
         event.preventDefault();
         let seed = Number(document.getElementById("seed").value);
+        let depth = Number(document.getElementById("depth").value);
         let generator = document.querySelector('input[name="generator"]:checked').value;
-        if (Number.isInteger(seed) && seed >= 0 && seed < 4294967296) {
-            window.location.href = `/seed/${generator}/${seed}.png`;
-        } else {
-            alert("Enter a seed between 0 and 4294967295!");
-        }
+        window.location.href = `/seed/${generator}/${depth}/${seed}.png`;
     });
 </script>
