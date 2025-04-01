@@ -8,11 +8,13 @@ You can view layouts using both the demo and experimental generator (explained b
 
 ## Analysis
 
-Currently, there's two generators imlemented:
+Currently, there's three generators imlemented:
 
 1. The Demo generator, which, as the name suggests, is used in the game demo to generate the shard layouts. This was the first generator released to the public, and it was quickly discovered that there's a lot of RNG with this generator, leading to a lot of dead-on-arrival runs.
 
 2. The "experimental" generator was shared in the speedrunning discord and is not released anywhere yet. It was implemented to test if it is an improvement over the demo generator, which it is.
+
+3. The "v1.0.b" generator was included in the first full release of the game. It is almost identical to the experimental generator, with a few small adjustments to the shop generation. This generator has only been reverse engineered from decompilation and has not been provided in source-code form by Landfall. Therefore, the reimplementation might not match up exactly, though experimentally, it does.
 
 ![Demo Generation](media/demo_generator.png)
 
@@ -29,6 +31,12 @@ This has a few consequences:
 - The "concentration" of the best routes is denser, because better routes automatically get kind-of downgraded.
 - There is still a high difference between the average route when always choosing the best one (6.92 run-levels on average) to choosing a random route (8.56 on average). This means speedrunning the game requires skill to identify the optimal route in each shard.
 - The mode of the best route is a 7 level seed, and the best practical value is 6, means that when doing a full game run, having an average seed is not actually that much worse than having the practically best seed - leading to less abandonded runs due to RNG
+
+In the relased generator, there are less shop levels than before, resulting in more default levels overall. The distribution of seeds does not change much compared to the experimental generator.
+
+![v1.0.b Generation](media/v1.0.b_generator.png)
+
+Note: All this analysis was done on layouts with depth 13, which means 13 levels between the start node and final boss. However, in the final game, the depth of the first shard was reduced to 12. Therefore, these probabilities are not directly related to your chances of getting such a seed on the first shard and only serve as a "quality measure" of the RNG.
 
 ## Building
 
