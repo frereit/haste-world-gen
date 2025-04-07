@@ -26,23 +26,15 @@ namespace SeedVisualiser
 
             app.MapRazorPages();
 
-            app.MapGet("/seed/{generator}/{seed}.png", async (HttpContext context, [FromRoute] string generator, [FromRoute] string seed) =>
+            app.MapGet("/shards/{shardId}/{seed}.png", async (HttpContext context, [FromRoute] int shardId, [FromRoute] int seed) =>
             {
-                // Old links had a hardcoded depth of 13
-                context.Response.ContentType = "image/png";
-                var png = Visualiser.DrawLayoutAsPng(int.Parse(seed), 13, generator);
-                await context.Response.Body.WriteAsync(png);
-            });
-
-            app.MapGet("/seed/{generator}/{depth}/{seed}.png", async (HttpContext context, [FromRoute] string generator, [FromRoute] int depth, [FromRoute] int seed) =>
-            {
-                if (depth < 1 || depth > 50)
+                if (seed < 1 || !ShardData.Shards.ContainsKey(shardId))
                 {
                     context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                     return;
                 }
                 context.Response.ContentType = "image/png";
-                var png = Visualiser.DrawLayoutAsPng(seed, depth, generator);
+                var png = Visualiser.DrawLayoutAsPng(ShardData.Shards[shardId], seed);
                 await context.Response.Body.WriteAsync(png);
             });
 

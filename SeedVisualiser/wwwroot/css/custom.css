@@ -9,6 +9,36 @@
     margin-top: 10px;
 }
 
+.labeled-hr {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.labeled-hr hr {
+    flex: 1;
+    border: none;
+    height: 1px;
+    background-color: #ccc;
+}
+
+.labeled-hr span {
+    padding: 0 10px;
+    color: #666;
+    white-space: nowrap;
+}
+
+#upload-area {
+    border: 2px dashed #aaa;
+    border-radius: 12px;
+    padding: 50px;
+    text-align: center;
+    color: #777;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+}
+
 .email::before {
     content: 'haste';
 }

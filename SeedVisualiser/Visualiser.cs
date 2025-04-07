@@ -12,34 +12,17 @@ namespace SeedVisualiser
 {
     public static class Visualiser
     {
-        public static byte[] DrawLayoutAsPng(int seed, int depth, string generator)
+        public static byte[] DrawLayoutAsPng(RunConfig config, int seed)
         {
-            List<LevelSelectionNode> nodes;
-            List<LevelSelectionPath> paths;
-            if (generator == "experimental")
-            {
-                ExperimentalLevelSelectionMapGenerator.GenerationInfo info = new() { Depth = depth, Nodes = [], Paths = [] };
-                (nodes, paths) = ExperimentalLevelSelectionMapGenerator.Generate(info, new Random(seed));
-            }
-            else if (generator == "demo")
-            {
-                DemoLevelSelectionMapGenerator.GenerationInfo info = new() { Depth = depth, Nodes = [], Paths = [] };
-                (nodes, paths) = DemoLevelSelectionMapGenerator.Generate(info, new Random(seed));
-            }
-            else if (generator == "v1.0.b")
-            {
-                ReleaseV1LevelSelectionMapGenerator.GenerationInfo info = new() { Depth = depth, Nodes = [], Paths = [] };
-                (nodes, paths) = ReleaseV1LevelSelectionMapGenerator.Generate(info, new Random(seed));
-            }
-            else
-            {
-                throw new ArgumentException($"Unkown generator {generator}");
-            }
+            LevelSelectionMapGenerator.GenerationInfo info = new() { Depth = config.NrOfLevels, Nodes = [], Paths = [] };
+
+            LevelSelectionMapGenerator.Generate(info, new Random(seed));
+
             float scale = 17f;
 
             var imageInfo = new SKImageInfo(
                 width: 1200,
-                height: 400 + depth * 120,
+                height: 500 + config.NrOfLevels * 120,
                 colorType: SKColorType.Rgba8888,
                 alphaType: SKAlphaType.Premul);
             var surface = SKSurface.Create(imageInfo);
@@ -51,7 +34,7 @@ namespace SeedVisualiser
             var lineColor = SKColor.Parse("#000000");
             float lineWidth = 5f;
             var linePaint = new SKPaint { Color = lineColor, StrokeWidth = lineWidth, IsAntialias = true, Style = SKPaintStyle.Stroke };
-            foreach (var path in paths)
+            foreach (var path in info.Paths)
             {
                 int x1 = (int)(path.From.Position.X * scale) + imageInfo.Width / 2;
                 int y1 = imageInfo.Height - (int)(path.From.Position.Z * scale) - (int)(2 * scale);
@@ -62,7 +45,7 @@ namespace SeedVisualiser
 
             // Draw the best edges thicker
             linePaint.StrokeWidth = 9f;
-            var best = LayoutAnalysis.FindBestPath(nodes, paths);
+            var best = LayoutAnalysis.FindBestPath(info.Nodes, info.Paths);
             for (int i = 1; i < best.Count; i++)
             {
                 var from = best[i - 1];
@@ -84,7 +67,7 @@ namespace SeedVisualiser
                 { LevelSelectionNode.NodeType.Boss, SKColor.Parse("#6D214F") },
                 { LevelSelectionNode.NodeType.RestStop, SKColor.Parse("#da9090")}
             };
-            foreach (var node in nodes)
+            foreach (var node in info.Nodes)
             {
                 var nodeColor = nodeColors[node.Type];
                 var nodePaint = new SKPaint { Color = nodeColor, StrokeWidth = 1, IsAntialias = true, Style = SKPaintStyle.Fill };
@@ -114,7 +97,7 @@ namespace SeedVisualiser
 
             canvas.DrawText($"seed {seed}", imageInfo.Width - scale, scale * 5, SKTextAlign.Right, textFont, textPaint);
             textFont.Size = scale * 2;
-            canvas.DrawText($"{generator} generator", imageInfo.Width - scale, scale * 7, SKTextAlign.Right, textFont, textPaint);
+            canvas.DrawText(LevelSelectionMapGenerator.Version, imageInfo.Width - scale, scale * 7, SKTextAlign.Right, textFont, textPaint);
 
             textFont.Size = scale * 3;
             foreach (var type in Enum.GetValues(typeof(LevelSelectionNode.NodeType)))
