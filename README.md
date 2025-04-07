@@ -4,45 +4,31 @@ This is a simple Visual Studio 2022 project which wraps the layout generation co
 
 Modifications to Landfall code are kept as minimal as possible, to make porting over new changes to the layout generation quick and easy.
 
-You can view layouts using both the demo and experimental generator (explained below) at <https://haste.razzleware.de>.
+You can view layouts using the latest generator at <https://haste.razzleware.de>. The Speedrunning Mod adds a QR code to the map screen, which can be used to recover the seed and shard. Simply paste a screenshot of the QR code on the website to reconstruct the map.
 
 ## Analysis
 
-Currently, there's three generators imlemented:
+Note: The following plots apply to the latest released generator. For analysis of the demo and experimental generator, see [this commit](https://github.com/frereit/haste-world-gen/blob/84093923d5fad3641e5ec86307d1c916ada0c78b/README.md#analysis).
 
-1. The Demo generator, which, as the name suggests, is used in the game demo to generate the shard layouts. This was the first generator released to the public, and it was quickly discovered that there's a lot of RNG with this generator, leading to a lot of dead-on-arrival runs.
+In this analysis, the first one million seeds of every shard were analysed and the best routes were counted. The first forced level of each shard counts towards the default levels in the route, and the shards are 0-indexed so the first shard is "shard 0".
 
-2. The "experimental" generator was shared in the speedrunning discord and is not released anywhere yet. It was implemented to test if it is an improvement over the demo generator, which it is.
 
-3. The "v1.0.b" generator was included in the first full release of the game. It is almost identical to the experimental generator, with a few small adjustments to the shop generation. This generator has only been reverse engineered from decompilation and has not been provided in source-code form by Landfall. Therefore, the reimplementation might not match up exactly, though experimentally, it does.
-
-![Demo Generation](media/demo_generator.png)
-
-![Experimental Generation](media/experimental_generator.png)
-
-The experimental generator is almost identical as the demo generator, except with two additional rules which prevent the placement of skippable nodes:
-
-1) Do not allow the same node type to show up twice in a row - no rest stop followed by a rest stop, etc..
-2) Do not allow more than 2 "non-levels" in a row (shops, encounters, healing nodes). If you do get 2 non-levels in a row, the next node is guaranteed to be either a normal level or a challenge level.
-
-This has a few consequences:
-
-- With the experimental generator, the minimum number of default+challenge levels on the best route is increased to 5, up from 2 in the demo generator
-- The "concentration" of the best routes is denser, because better routes automatically get kind-of downgraded.
-- There is still a high difference between the average route when always choosing the best one (6.92 run-levels on average) to choosing a random route (8.56 on average). This means speedrunning the game requires skill to identify the optimal route in each shard.
-- The mode of the best route is a 7 level seed, and the best practical value is 6, means that when doing a full game run, having an average seed is not actually that much worse than having the practically best seed - leading to less abandonded runs due to RNG
-
-In the relased generator, there are less shop levels than before, resulting in more default levels overall. The distribution of seeds does not change much compared to the experimental generator.
-
-![v1.0.b Generation](media/v1.0.b_generator.png)
-
-Note: All this analysis was done on layouts with depth 13, which means 13 levels between the start node and final boss. However, in the final game, the depth of the first shard was reduced to 12. Therefore, these probabilities are not directly related to your chances of getting such a seed on the first shard and only serve as a "quality measure" of the RNG.
+![Shard 0](media/shard0.png)
+![Shard 1](media/shard1.png)
+![Shard 2](media/shard2.png)
+![Shard 3](media/shard3.png)
+![Shard 4](media/shard4.png)
+![Shard 5](media/shard5.png)
+![Shard 6](media/shard6.png)
+![Shard 7](media/shard7.png)
+![Shard 8](media/shard8.png)
+![Shard 9](media/shard9.png)
 
 ## Building
 
 No special dependencies are needed to build this project.
 
-You can use the HasteLayoutGen project as a library to do generate the nodes and edges for any seed (with any generator), and then do any custom analysis you can dream of. It's easiest to just add a new Console Application to the project, with a dependency on the HasteLayoutGen project.
+You can use the HasteLayoutGen project as a library to do generate the nodes and edges for any seed (with any generator), and then do any custom analysis you can dream of. It's easiest to just add a new Console Application to the project, with a dependency on the HasteLayoutGen project, or use the SeedAnalyser project as a base.
 
 ## Licenses
 

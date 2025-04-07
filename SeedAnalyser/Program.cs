@@ -43,7 +43,7 @@ namespace SeedAnalyser
 
             foreach (var bar in barPlot.Bars)
             {
-                bar.Label = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0:f2}%", bar.Value);
+                bar.Label = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0:f4}%", bar.Value);
             }
             barPlot.ValueLabelStyle.Bold = true;
             barPlot.ValueLabelStyle.FontSize = 23;
