@@ -49,7 +49,7 @@ namespace SeedAnalyser
             barPlot.ValueLabelStyle.FontSize = 23;
 
 
-            plt.Title($"Shard {shard}");
+            plt.Title($"Shard {shard+1}");
             plt.XLabel("number of default or challenge levels on the best route");
             plt.YLabel("percentage");
             plt.Axes.Left.TickLabelStyle.FontSize = 32;
@@ -58,7 +58,7 @@ namespace SeedAnalyser
             plt.Axes.Bottom.Label.FontSize = 32;
             plt.Axes.Margins(bottom: 0);
             plt.Axes.Bottom.SetTicks(positions, [.. counts.Keys.Select(k => k.ToString())]);
-            plt.SavePng($"shard{shard}.png", 1200, 800);
+            plt.SavePng($"shard{shard+1}.png", 1200, 800);
         }
     }
 }

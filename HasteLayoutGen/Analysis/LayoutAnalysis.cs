@@ -8,7 +8,8 @@ namespace HasteLayoutGen.Analysis
     {
         public static int PathCount(List<LevelSelectionNode> nodes)
         {
-            return nodes.Count - nodes.Where(n => n.Type != NodeType.Default && n.Type != NodeType.Challenge).Count();
+            // -1 because we do not count the first level, which is always a default level.
+            return nodes.Count - nodes.Where(n => n.Type != NodeType.Default && n.Type != NodeType.Challenge).Count() - 1;
         }
 
         public static List<LevelSelectionNode> FindBestPath(List<LevelSelectionNode> nodes, List<LevelSelectionPath> paths)
