@@ -10,10 +10,8 @@ You can view layouts using the latest generator at <https://haste.razzleware.de>
 
 Note: The following plots apply to the latest released generator. For analysis of the demo and experimental generator, see [this commit](https://github.com/frereit/haste-world-gen/blob/84093923d5fad3641e5ec86307d1c916ada0c78b/README.md#analysis).
 
-In this analysis, the first one million seeds of every shard were analysed and the best routes were counted. The first forced level of each shard counts towards the default levels in the route, and the shards are 0-indexed so the first shard is "shard 0".
+In this analysis, the first one million seeds of every shard were analysed and the best routes were counted. The first forced level of each shard is not counted.
 
-
-![Shard 0](media/shard0.png)
 ![Shard 1](media/shard1.png)
 ![Shard 2](media/shard2.png)
 ![Shard 3](media/shard3.png)
@@ -23,6 +21,7 @@ In this analysis, the first one million seeds of every shard were analysed and t
 ![Shard 7](media/shard7.png)
 ![Shard 8](media/shard8.png)
 ![Shard 9](media/shard9.png)
+![Shard 10](media/shard10.png)
 
 ## Building
 
